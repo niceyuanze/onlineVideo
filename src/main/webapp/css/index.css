@@ -1,0 +1,159 @@
+*{
+	margin: 0px 0px 0px 0px;
+	list-style:none;
+}
+h2{
+	font-size: 16px;
+	font-weight: normal;
+	color: #333;
+}
+
+
+
+		.head{
+			width: 100%;
+			height: 100px;
+			background: #0099CC;
+		}
+
+		.main{
+			height: 450px;
+			width: 100%;
+
+		}
+
+		#main_right{
+			border: 1px solid red;
+			height: 400px;
+			width: 250px;
+			float: right;
+
+		}
+
+
+		.navigation{
+			width: 100%;
+			height: 100px;
+			background: black;
+		}
+		#navigation ul li {
+			margin: 15px 15px 0px 20px;
+			width: 100px;
+			height: 35px;
+			float: left;
+			color: white;
+			/*border: 1px solid red;*/
+		}
+
+
+
+		.login-frame{
+			width: 355px;
+			height:352px;
+			border: 1px solid red;
+			background: #FFF;
+
+		}
+		.login-frame-top{
+			/*border: 1px solid blue;*/
+		}
+		.nameContainer{
+			width: 290px;
+			height: 58px;
+			border-bottom:1px solid #DDDDDD ;
+			font-size: 12px;
+			color: #DDDDDD;
+			margin: 0px 0px 0px 15px;
+
+		}
+		.nameContainer label{
+			margin: 30px 2px 0px 0px;
+			color: black;
+
+		}
+		.nameContainer input{
+			margin: 30px 2px 0px 13px;
+			border: transparent;
+
+		}
+		.passwordContainer{
+			width: 290px;
+			height: 58px;
+			border-bottom:1px solid #DDDDDD ;
+			font-size: 12px;
+			color: #DDDDDD;
+			margin: 0px 0px 0px 15px;
+		}
+		.passwordContainer label{
+			margin: 30px 2px 0px 0px;
+			color: black;
+		}
+		.passwordContainer input{
+			margin: 30px 2px 0px 22px;
+			border: transparent;
+		}
+		.login-frame-button{
+			margin: 53px 0px 0px 15px;
+			background: #B1B1B1;
+			display: block;
+			height: 40px;
+			width: 290px;
+			color: white;
+			text-align: center;
+			text-decoration-line: none;
+			text-decoration-style: solid;
+			font-size: 14px;
+
+		}
+
+		.login-title{
+			width: 290px;
+			height: 40px;
+			font-size: 16px;
+			text-align: center;
+		}
+		.login-frame-top{
+			margin: 15px 15px 15px 15px;
+		}
+		.frame-close{
+			display: block;
+
+			color: #aaa;
+			margin: 0px 0px 0px 290px;
+			text-decoration:none;
+			font-size: 12px;
+
+
+
+		}
+		.login-frame-bottom{
+			width: 355px;
+			height: 52px;
+		}
+		.login-frame-register{
+			display: block;
+			text-decoration:none;
+			font-size: 12px;
+			color: black;
+			margin: 30px 0px 0px 13px;
+		}
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		
+		
+		
