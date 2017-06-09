@@ -1,0 +1,48 @@
+.label{
+    width: 100px;
+    height:40px;
+    font-size: 15px;
+
+}
+.specificbutton{
+    width:100px;
+    height: 40px;
+    border-radius: 10px;
+
+}
+.hide{
+    display: none;
+}
+.shortInputText{
+    width: 20px;
+}
+.specificTextarea{
+    height: 40px;
+    width: 800px;
+    margin: 3px 0px 0px 0px;
+}
+.specificSelect{
+    appearance:none;
+    -moz-appearance:none;
+    margin: 10px 10px 10px 10px;
+    background: url(images/downArrow.jpg) no-repeat right ;
+    background-color:transparent;
+    width: 268px;
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    height: 34px;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+.specificbutton{
+    width:100px;
+    height: 40px;
+    border-radius: 10px;
+
+}
+.specificlabel{
+    width: 40px;
+    height:30px;
+    font-size: 25px;
+}

@@ -11,9 +11,13 @@ public interface UserDao {
 
 
 
+
+
     public User getUserById(String uuid);
 
     public User getUserByLoginname(String loginname);
+
+    public boolean saveUser(User user);
 
 
 

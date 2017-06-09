@@ -1,0 +1,60 @@
+*{
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+.hide{
+	display: none;
+}
+#login{
+	margin: 150px 0px 0px 400px;
+	height: 400px;
+	width: 350px;
+	/*border: 1px solid red;*/
+
+
+}
+#login_title{
+	/*border: 1px solid red;*/
+	height: 70px;
+	background: #333333;
+	
+
+}
+#login_title label{
+	float: left;
+	margin: 18px 10px 10px 10px;
+	text-align:center;
+	/*border: 1px solid red;*/
+	font-size: 20px;
+}
+#error_message{
+	border: 1px solid red;
+	margin: -300px 0px 0px 0px;
+}
+#login_body{
+	height: 220px;
+	/*border: 1px solid red;*/
+	background: #FFFF99
+}
+#login_body ul{
+	margin: -5px 0px 0px 0px;	
+}
+#login_body li{
+	float: left;
+	margin: 15px 10px 10px 50px;
+}
+#login_body li input{
+	height: 30px;
+}
+#login_bottom{
+	height: 110px;
+	/*border: 1px solid red;*/
+	background: #333333;
+}
+#login_bottom button{
+	height: 40px;
+	width: 150px;
+	border-radius: 3px;
+	margin: 20px 0px 0px 180px;
+}

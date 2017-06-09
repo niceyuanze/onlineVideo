@@ -35,6 +35,9 @@ public class User {
     @Basic
     private String password;
 
+    @Column(name="name", nullable = false,updatable = true,unique = true)
+    private String name;
+
 
 
 
@@ -59,6 +62,15 @@ public class User {
     public User() {
     }
 
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getId() {
         return id;
     }
@@ -67,13 +79,6 @@ public class User {
         this.id = id;
     }
 
-//    public UUID getId() {
-//        return id;
-//    }
-//
-//    public void setId(UUID id) {
-//        this.id = id;
-//    }
 
     public List<Role> getRoles() {
         return roles;
@@ -113,8 +118,10 @@ public class User {
                 "id='" + id + '\'' +
                 ", loginname='" + loginname + '\'' +
                 ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
                 '}';
     }
+
 }

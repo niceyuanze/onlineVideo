@@ -25,6 +25,9 @@
         <mapping class="com.onlineVideo.login.pojo.User"/>
         <mapping class="com.onlineVideo.login.pojo.Role"/>
         <mapping class="com.onlineVideo.login.pojo.User_Role"></mapping>
+        <mapping class="com.onlineVideo.video.pojo.Video"></mapping>
+
+        <mapping class="com.onlineVideo.video.pojo.Advertisement"></mapping>
     </session-factory>
 
 </hibernate-configuration>

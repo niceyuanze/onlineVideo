@@ -20,7 +20,8 @@ public class UserDaoImpl implements UserDao{
     private SessionFactory sessionFactory ;
 
 
-
+    //根据用户id获取到用户的信息
+    @Override
     public User getUserById(String uuid) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -44,18 +45,39 @@ public class UserDaoImpl implements UserDao{
 
     }
 
+    //根据用户登录名获取用户信息
+    @Override
     public User getUserByLoginname(String loginname) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        String hql = "from User user where user.id =:loginname";
+        String hql = "from User user where user.loginname =:loginname";
         List<User> users = session.createQuery(hql)
                 .setParameter("loginname",loginname)
                 .list();
-
-
-        return users.size() == 0?null:users.get(1);
+        System.out.println(users);
+        transaction.commit();
+        session.close();
+        return users.size() == 0?null:users.get(0 );
     }
 
+
+
+    @Override
+    public boolean saveUser(User user) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+
+
+        session.save(user);
+
+
+        transaction.commit();
+        session.close();
+        return true;
+
+
+    }
 
 
 }

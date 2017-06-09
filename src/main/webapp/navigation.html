@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>online video</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" href="css/navigation.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link href="//vjs.zencdn.net/5.11/video-js.min.css" rel="stylesheet">
+    <script src="//vjs.zencdn.net/5.11/video.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+
+
+
+//            点击label播放视频功能实现
+            $("#main_titles label").click(function(){
+                var id = this.id;
+                $.get("/video/play/"+id,function(result){
+
+                    if(result['code'] == 200){
+                        $("#player").attr("src",result['data']['path']);
+                    }
+
+                });
+            });
+
+
+            //下面两个是页面的显示隐藏实现
+
+            $("#login_label").click(function () {
+                if($("#login-frame").is(":hidden")　&& $("#singUp-frame").is(":hidden")){
+                    $("#login-frame").show();
+                    return;
+                }
+//                alert("1");
+                if (!$("#login-frame").is(":hidden")){
+                    $("#login-frame").hide();
+                }
+//                alert("2");
+                if(!$("#singUp-frame").is(":hidden")){
+                    $("#singUp-frame").hide();
+                }
+            });
+            $("#signIn-frame-close").click(function () {
+                $("#login-frame").hide();
+            });
+            $("#signUp-frame-close").click(function () {
+                $("#singUp-frame").hide();
+            });
+            $("#open-signUp-frame").click(function () {
+                $("#login-frame").toggle();
+                $("#singUp-frame").toggle();
+            });
+            $("#open-signIn-frame").click(function () {
+                $("#singUp-frame").toggle();
+                $("#login-frame").toggle();
+            });
+
+
+
+
+            //jquery获取cookie测试
+            $("#getCookie").click(function () {
+                var strCookie = document.cookie;
+                var arrCookie = strCookie.split("; ");
+                alert(arrCookie);
+            });
+
+
+
+            //登录方法实现
+            $("#loginButton").click(function () {
+                var loginname = $("#loginname").val();
+                var password = $("#password").val();
+                    $.post("/login/user","loginname="+loginname+"&password="+password,
+                        function(result){
+                        if(result['code'] == 200){
+                            $("#login-frame").toggle();
+                            $.get("/video/play",function(result){
+                                if(result['code'] == 200){
+                                    $("#player").attr("src",result['data']['path']);
+                                }else{
+
+                                }
+                            });
+                        }
+
+                    });
+            });
+            //注册方法实现
+            //注册方法实现
+            //注册方法实现
+            //注册方法实现
+            //注册方法实现
+            $("#signUpButton").click(function () {
+                var loginname = $("#username").val();
+                var password = $("#userpassword").val();
+                var name = $("#name").val();
+                var email = $("#email").val();
+                var value =  "loginname="+loginname+
+                    "&password="+password+
+                    "&name="+name+
+                    "&email="+email;
+                $.post("signUp/user",value,
+                    function(result){
+                        if(result['code'] == 200){
+                            $("#login-frame").hide();
+                            $("#singUp-frame").hide();
+                            $.get("/video/play",function(result){
+                                if(result['code'] == 200){
+                                    $("#player").attr("src",result['data']['path']);
+                                }else{
+
+                                }
+                            });
+                        }
+                    });
+
+            });
+
+
+
+//
+
+
+
+
+
+
+
+
+
+//          下面是播放结束方法实现或者获取非广告方法,视频id在session里面
+            var vid = document.getElementById("player");
+            vid.onended = function()
+            {
+                $.get("/video/play",function(result){
+
+                    if(result['code'] == 200){
+                        $("#player").attr("src",result['data']['path']);
+                    }
+
+                });
+            };
+        });
+
+
+
+
+    </script>
+</head>
+<body class="bg">
+
+    <div id="head" class="head">
+        <label id="login_label" class="hand" >登录</label>
+
+    </div>
+
+
+
+    <div id="main" class="main">
+
+
+        <ul class="main_titles" id="main_titles">
+            <li>
+                <h5>学习视频</h5>
+                <ul class="main_title_specific">
+                    <li><label id="e6fa076138df460f83d0821d2dc02071">机器学习1</label></li>
+                    <li><label id="e6fa076138df460f83d0821d2dc02071">机器学习2</label></li>
+                    <li><label id="3">机器学习3</label></li>
+                </ul>
+            </li>
+            <li>
+                <h5>电影</h5>
+                <ul class="main_title_specific">
+                    <li><a href="#">电影1</a></li>
+                    <li><a href="#">电影2</a></li>
+                    <li><a href="#">电影3</a></li>
+                </ul>
+            </li>
+            <li>
+                <h5>电视剧</h5>
+                <ul class="main_title_specific">
+                    <li><a href="#">电视剧1</a></li>
+                    <li><a href="#">电视剧2</a></li>
+                    <li><a href="#">电视剧3</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <div id="player_frame">
+
+
+        </div>
+
+        <video id ="player"  width="700px" height="415px" controls="controls" autoplay="autoplay"　w>
+
+
+        </video>
+
+
+
+           <div id="login-frame" class="login-frame hide">
+
+
+
+               <div class="login-frame-top">
+                   <label id="signIn-frame-close" class="frame-close hand" >关闭</label>
+                   <h2 class="login-title">登录</h2>
+                   <div class="nameContainer">
+                       <label >用户名</label>
+                       <input id="loginname" type="text" placeholder="请输入用户名">
+                   </div>
+                   <div class="passwordContainer">
+                       <label>
+                           密码
+                       </label>
+                       <input id="password" type="password   " placeholder="请输入密码">
+                   </div>
+                   <a class="login-frame-button" id="loginButton" href="javascript:;">登录</a>
+               </div>
+
+
+               <div class="login-frame-bottom">
+                   <a id="open-signUp-frame" class="login-frame-register" href="javascript:;">注册</a>
+               </div>
+
+
+           </div>
+
+
+
+
+
+        <div id="singUp-frame" class="login-frame hide">
+
+
+            <div class="login-frame-top">
+
+                <label id="signUp-frame-close" class="frame-close hand" >关闭</label>
+
+                <h2 class="login-title">注册</h2>
+                <div class="nameContainer">
+                    <label >用户名</label>
+                    <input id="username" type="text" placeholder="请输入用户名">
+                </div>
+                <div class="passwordContainer">
+                    <label>密码</label>
+                    <input id="userpassword" type="password" placeholder="请输入密码">
+                </div>
+                <div class="passwordContainer">
+                    <label>昵称</label>
+                    <input id="name" type="text" placeholder="请输入昵称">
+                </div>
+                <div class="passwordContainer">
+                    <label>邮箱</label>
+                    <input id="email" type="text" placeholder="请输入邮箱">
+                </div>
+
+                <a id="signUpButton" class="login-frame-button"  href="javascript:;">注册</a>
+            </div>
+
+            <div class="login-frame-bottom">
+                <a id="open-signIn-frame" class="login-frame-register" href="javascript:;">登录</a>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+    <!--<div id="navigation" class="navigation">-->
+        <!--<ul class="navigation-class">-->
+            <!--<li>study</li>-->
+            <!--<li>entirement</li>-->
+            <!--<li>Suspense</li>-->
+            <!--<li>Documentary</li>-->
+        <!--</ul>-->
+
+    <!--</div>-->
+
+
+
+</body>
+
+</html>

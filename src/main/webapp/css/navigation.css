@@ -1,0 +1,113 @@
+*{
+    margin: 0px 0px 0px 0px;
+    list-style:none;
+}
+
+h2{
+    font-size: 16px;
+    font-weight: normal;
+    color: #333;
+}
+.bg{
+    background:#F0E68C;
+}
+.hand{
+    cursor:pointer;
+
+}
+.hide{
+    display: none;
+}
+
+.head{
+    width: 100%;
+    height: 100px;
+    background: #0099CC;
+}
+
+.main{
+    height: 450px;
+    width: 100%;
+
+}
+.main_titles{
+    margin: 0px 0px 0px -40px ;
+}
+.main_titles li{
+    display: block;
+    border: 1px solid #DDDDDD;
+    margin: 10px 0px 0px 5px;
+}
+.main_title_specific li{
+    display: inline;
+}
+#main_titles label{
+    cursor:pointer;
+}
+
+#player{
+    width: 200px;
+    height: 200px;
+}
+
+
+
+#login-frame{
+    margin: 32px 10px 10px 10px;
+    /*border: 1px solid red;*/
+    position: fixed;
+    left: 73%;
+    top: 10%;
+
+}
+
+#login_label{
+    display: block;
+    width: 50px;
+    height: 25px;
+    margin: 0px 0px 0px 1270px;
+    color: #555;
+}
+
+
+
+
+/*
+    以下是注册模块的css
+*/
+
+
+
+#singUp-frame{
+    width: 355px;
+    height:465px;
+    border: 1px solid red;
+    background: #FFF;
+    margin: 33px 10px 10px 10px;
+    /*border: 1px solid red;*/
+    position: fixed;
+    left: 73%;
+    top: 10%;
+
+}
+
+#signUpButton{
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

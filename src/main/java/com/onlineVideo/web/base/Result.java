@@ -3,6 +3,8 @@ package com.onlineVideo.web.base;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlineVideo.login.pojo.User;
+import com.onlineVideo.web.util.JSONTranslater;
+import com.sun.net.httpserver.Authenticator;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -39,29 +41,30 @@ public class Result {
     }
 
 
-
-
     public Result addData(Object data) {
         this.data = data;
         return this;
     }
 
     public Result(int code, String msg, Object data) {
-
         addCode(code);
-        addData(data);
+        addMsg(msg);
         addData(data);
 
 
 
     }
 
-    public static Result success(String content) {
-        return new Result(200, content, null);
+
+
+    public static String  success(String content) throws JsonProcessingException {
+        return JSONTranslater.tralstate(new Result(200, content, null));
     }
 
-    public static Result success(String content, Object data) {
-        return new Result(200, content, data);
+    public static String  success(String content, Object data) throws JsonProcessingException {
+
+        return JSONTranslater.tralstate(new Result(200, content, data));
+
     }
 
     public static Result error(int code, String content) {
@@ -96,8 +99,8 @@ public class Result {
         return new Result(403, content, null);
     }
 
-    public static Result error404(String content) {
-        return new Result(404, content, null);
+    public static String error404(String content) throws JsonProcessingException {
+        return JSONTranslater.tralstate(new Result(404, content, null));
     }
 
     public static Result error500(String content) {
