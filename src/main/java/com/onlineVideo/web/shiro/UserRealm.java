@@ -1,11 +1,9 @@
 package com.onlineVideo.web.shiro;
 
-import com.onlineVideo.login.dao.UserDao;
-import com.onlineVideo.login.pojo.User;
+import com.onlineVideo.dao.UserDao;
+import com.onlineVideo.pojo.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;

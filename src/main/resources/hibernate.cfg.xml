@@ -14,7 +14,7 @@
     <session-factory>
 
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost/onlineVideo</property>
+        <property name="connection.url">jdbc:mysql://localhost/onlineVideo?characterEncoding=utf8</property>
         <property name="connection.username">root</property>
         <property name="connection.password">123</property>
 
@@ -22,12 +22,15 @@
 
         <property name="show_sql">true</property>
 
-        <mapping class="com.onlineVideo.login.pojo.User"/>
-        <mapping class="com.onlineVideo.login.pojo.Role"/>
-        <mapping class="com.onlineVideo.login.pojo.User_Role"></mapping>
-        <mapping class="com.onlineVideo.video.pojo.Video"></mapping>
+        <mapping class="com.onlineVideo.pojo.User"/>
+        <mapping class="com.onlineVideo.pojo.Role"/>
+        <mapping class="com.onlineVideo.pojo.User_Role"></mapping>
 
-        <mapping class="com.onlineVideo.video.pojo.Advertisement"></mapping>
+
+        <mapping class="com.onlineVideo.pojo.Video"></mapping>
+        <mapping class="com.onlineVideo.pojo.Type"></mapping>
+
+        <mapping class="com.onlineVideo.pojo.Advertisement"></mapping>
     </session-factory>
 
 </hibernate-configuration>

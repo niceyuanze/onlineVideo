@@ -2,14 +2,11 @@ package com.onlineVideo.web.base;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.onlineVideo.login.pojo.User;
 import com.onlineVideo.web.util.JSONTranslater;
-import com.sun.net.httpserver.Authenticator;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.Serializable;
 
 /**
  * Created by niceyuanze on 17-6-4.
@@ -83,8 +80,8 @@ public class Result {
         return new Result(404, "globals.result.error", null);
     }
 
-    public static Result error400(String content) {
-        return new Result(400, content, null);
+    public static String error400(String content) throws JsonProcessingException {
+        return  JSONTranslater.tralstate(new Result(400, content, null));
     }
 
     public static Result error401(String content) {

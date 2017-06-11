@@ -1,0 +1,187 @@
+package cn.wizzer.app.web.modules.controllers.api.sys;
+
+import cn.wizzer.app.sys.modules.models.Sys_unit;
+import cn.wizzer.app.sys.modules.services.SysUnitService;
+import cn.wizzer.app.web.commons.slog.annotation.SLog;
+import cn.wizzer.framework.base.Result;
+import cn.wizzer.framework.util.StringUtil;
+import com.sun.org.apache.regexp.internal.RE;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.nutz.dao.Cnd;
+import org.nutz.dao.pager.Pager;
+import org.nutz.ioc.loader.annotation.Inject;
+import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Strings;
+import org.nutz.lang.util.NutMap;
+import org.nutz.log.Log;
+import org.nutz.log.Logs;
+import org.nutz.mvc.adaptor.JsonAdaptor;
+import org.nutz.mvc.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by wizzer on 2016/6/24.
+ */
+@IocBean
+@At("/api/platform/sys/unit")
+public class SysUnitApiController {
+
+
+    private static final Log log = Logs.get();
+
+
+    @Inject
+    private SysUnitService sysUnitService;
+
+
+    @At("")
+    @Ok("json")
+    @AdaptBy(type=JsonAdaptor.class)
+    @RequiresPermissions("sys.manager.unit")
+    public Object index() {
+
+        return Result.success("system.success",
+                sysUnitService.
+                query(Cnd.where("parentId", "=", "").
+                        or("parentId", "is", null).asc("path")));
+
+    }
+
+
+
+
+
+    @At
+    @Ok("json")
+    @AdaptBy(type=JsonAdaptor.class)
+    @RequiresPermissions("sys.manager.unit.add")
+    @SLog(tag = "新建单位", msg = "单位名称:${args[0].name}")
+    public Object addDo(@Param("..") Sys_unit unit, @Param("parentId") String parentId, HttpServletRequest req) {
+        try {
+            sysUnitService.save(unit, parentId);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+
+    @At("/child/?")
+    @Ok("json")
+    @AdaptBy(type=JsonAdaptor.class)
+    @RequiresPermissions("sys.manager.unit")
+    public Object child(String id) {
+
+        NutMap resmap = new NutMap();
+        List childs = sysUnitService
+                .query(Cnd.where("parentId", "=", id)
+                        .asc("path"));
+        if(childs != null && childs.size() != 0){
+            resmap.addv("childs",(childs != null && childs.size() != 0)?childs:"");
+            return Result.success("system.success",resmap);
+        }else{
+            return Result.error("没有子节点");
+        }
+
+    }
+
+
+    //对应页面查看操作
+    @At("/detail/?")
+    @Ok("json")
+    @AdaptBy(type=JsonAdaptor.class)
+    @RequiresPermissions("sys.manager.unit")
+    public Object detailById(String id) {
+        return Result.success("system.success",sysUnitService.fetch(id));
+    }
+
+
+
+
+
+    //根据id获取数据
+    @At("/get/?")
+    @Ok("json")
+    @AdaptBy(type=JsonAdaptor.class)
+    @RequiresPermissions("sys.manager.unit")
+    public Object getById(String id, HttpServletRequest req) {
+        NutMap resmap = new NutMap();
+        Sys_unit unit = sysUnitService.fetch(id);
+
+        if (unit != null) {
+            resmap.addv("sys_unit",sysUnitService.fetch(id));
+            Sys_unit sys_unit_parsent = sysUnitService.fetch(unit.getParentId());
+            resmap.addv("parsentUnit",sys_unit_parsent==null?"":sys_unit_parsent);
+            return Result.success("system.success",resmap);
+        }else{
+           return Result.error("获取失败");
+        }
+
+    }
+
+    @At
+    @Ok("json")
+    @AdaptBy(type=JsonAdaptor.class)
+    @RequiresPermissions("sys.manager.unit.edit")
+    @SLog(tag = "编辑单位", msg = "单位名称:${args[0].name}")
+    public Object editDo(@Param("..") Sys_unit unit, @Param("parentId") String parentId, HttpServletRequest req) {
+        try {
+            unit.setOpBy(StringUtil.getUid());
+            unit.setOpAt((int) (System.currentTimeMillis() / 1000));
+            sysUnitService.updateIgnoreNull(unit);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+
+
+
+    //对应单位的删除操作
+    @At("/delete/?")
+    @Ok("json")
+    @AdaptBy(type=JsonAdaptor.class)
+    @RequiresPermissions("sys.manager.unit.delete")
+    @SLog(tag = "删除单位", msg = "单位名称:${args[1].getAttribute('name')}")
+    public Object delete(String id, HttpServletRequest req) {
+        try {
+            Sys_unit unit = sysUnitService.fetch(id);
+            req.setAttribute("name", unit.getName());
+            if ("0001".equals(unit.getPath())) {
+                return Result.error("system.not.allow");
+            }
+            sysUnitService.deleteAndChild(unit);
+            return Result.success("system.success");
+        } catch (Exception e) {
+            return Result.error("system.error");
+        }
+    }
+
+
+
+
+
+    @At
+    @Ok("json")
+    @AdaptBy(type=JsonAdaptor.class)
+    @RequiresPermissions("sys.manager.unit")
+    public Object tree(@Param("pid") String pid) {
+        List<Sys_unit> list = sysUnitService.query(Cnd.where("parentId", "=", Strings.sBlank(pid)).asc("path"));
+        List<Map<String, Object>> tree = new ArrayList<>();
+        for (Sys_unit unit : list) {
+            Map<String, Object> obj = new HashMap<>();
+            obj.put("id", unit.getId());
+            obj.put("text", unit.getName());
+            obj.put("children", unit.isHasChildren());
+            tree.add(obj);
+        }
+        return Result.success("system.success",tree);
+    }
+}
+

@@ -116,6 +116,19 @@
 
 }
 
+/*一下是添加视频种类menu的css*/
+
+#typeManage_panel{
+	border: 1px solid red;
+	margin: 20px 0px 0px 30px;
+}
+#typeManage_panel div{
+	margin: 20px 0px 0px 0px;
+}
+#typeManage_panel button{
+	margin: 0px 15px 0px 0px;
+}
+
 
 
 

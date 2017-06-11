@@ -46,20 +46,38 @@ CREATE TABLE function(
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+
+
+
+CREATE TABLE type(
+  id VARCHAR(32) NOT NULL COMMENT 'ID',
+  name VARCHAR(200) NOT NULL COMMENT'类别名字',
+  PRIMARY KEY(name),
+  UNIQUE KEY (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO type VALUES ('3ef7164d1f6167cb9f2658c07d3c2f0a','学习视频');
+
 CREATE TABLE video(
   id VARCHAR(32) NOT NULL COMMENT 'ID',
   name VARCHAR(2000) NOT NULL COMMENT '影片名称',
   path VARCHAR(2000) NOT NULL COMMENT '影片路径',
   abstracts VARCHAR(2000) NOT NULL COMMENT '影片摘要',
   source VARCHAR(2000) NOT NULL COMMENT '片源信息',
+  type VARCHAR(200) NOT NULL COMMENT'影片类别',
 --   cover VARCHAR(2000) NOT NULL COMMENT '封面地址'
-  PRIMARY KEY(id)
+  PRIMARY KEY(id),
+  CONSTRAINT VIDEO_FK_TYPE FOREIGN KEY(type) REFERENCES type(name)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 INSERT INTO video VALUES ('e6fa076138df460f83d0821d2dc02071',
 '机器学习视频1',
 'upload/video/study/e6fa076138df460f83d0821d2dc02071ml1.mp4',
 '学好机器学习很重要',
-'来自百度云');
+'来自百度云','学习视频');
+
+
+
+
+
 
 
 CREATE TABLE advertisement(

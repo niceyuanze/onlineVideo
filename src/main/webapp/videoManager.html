@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/back.js"></script>
+	<script src="js/ajaxfileupload.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="ueditor/ueditor.all.js"></script>
+<META HTTP-EQUIV="Cache-Control"CONTENT="no-cache">
+<link href="css/back.css" rel="stylesheet" type="text/css"/>
+<link href="css/basic.css" rel="stylesheet" type="text/css"/>
+	<script>
+        $(document).ready(function(){
+            function getAllTypes(idid) {
+                $.get("/cms/videoManage/typeAll",function(result){
+                    $("#"+idid).empty();
+                    for(var i in result['data']){
+                        $("#"+idid).append("<option value='"+result['data'][i]['name']+"'>"+result['data'][i]['name']+"</option>");
+                    }
+                });
+            };
+
+
+
+
+//		以下是载入界面的时候初始化设置
+            getAllTypes("newVideoType");
+
+
+            //获取所有的影视类别
+
+
+			$("#typeManageButton").click(function () {
+                getAllTypes("allTypes");
+
+            });
+			$("#addVideoButton").click(function () {
+                getAllTypes("newVideoType");
+            });
+
+			//添加视频的种类
+			$("#addType").click(function () {
+				var newTypeName = $("#newTypeName").val();
+                $.post("/cms/videoManage/type","name="+newTypeName,function(result){
+                    alert(result['msg']);
+                    getAllTypes("allTypes");
+                });
+
+            });
+
+
+
+
+
+
+            $("#newUpLoad").click(function(){
+
+				var name=$("#newVideoName").val();
+				var abstracts=$("#newVideoAbstracts").val();
+				var source = $("#newVideoSource").val();
+//                $("#ddl").find("option:selected").attr("emoney");
+				var type1 = $("#newVideoType").find("option:selected").attr("value");
+				alert(type1);
+
+                $.ajaxFileUpload({
+                        url:'/cms/videoManage/addVideo?name='+name+
+						'&abstracts='+abstracts+'&source='+source+'&type1='+type1,
+                        fileElementId:'newVideo',
+                    success: function (data, status){
+                            alert(123);
+                        },
+                        error: function (data, status)
+                        {
+                            alert(456);
+                        }
+                    }
+                );
+
+
+            });
+
+
+        });
+
+	</script>
+<title>back</title>
+	
+	
+</head>
+<body>
+	<div id="head" class="head">
+		
+	</div>
+
+	<div id="main" class="main">
+		<div id="main_main">
+		<div id="buttons" class="buttons">
+			<ul>
+				<li id="li0">
+					
+					<button id="button0">视频管理</button>
+					
+					<div id="menu0">
+						<button id="addVideoButton">添加视频</button>
+						<button id="changeVideoButton">修改视频</button>
+						<button id="typeManageButton">类别管理</button>
+						
+						
+					</div>
+				</li>
+
+
+			</ul>
+			
+			
+			
+		</div>
+		<div id="panel">
+
+
+			<div id="addVideo_panel" >
+
+				<div class="addVideo_panel_form">
+					<div class="videoName">
+						<label class="specificlabel">影片名称</label>
+						<input id="newVideoName" type="text" class="addVideo_panel_form_input">
+					</div>
+					<div class="videoAbstract">
+						<label class="specificlabel">影片摘要</label>
+						<textarea id="newVideoAbstracts" class="specificTextarea"></textarea>
+					</div>
+					<div class="videoSource">
+						<label class="specificlabel">影片片源信息</label>
+						<input id="newVideoSource" type="text" class="addVideo_panel_form_input">
+					</div>
+					<div>
+						<label class="specificlabel">影片类别</label>
+						<select id="newVideoType" class="specificSelect"></select>
+					</div>
+					<div>
+						<label class="specificlabel">选择影片</label>
+						<input id="newVideo" name="newVideo" type="file" class="addVideo_panel_form_input">
+					</div>
+					<div>
+						<button id="newUpLoad" class="specificbutton">上传</button>
+					</div>
+
+				</div>
+
+			</div>
+			<div id="changeVideo_panel" class="hide">
+				xxxx
+			</div>
+			<div id="typeManage_panel" class="hide">
+				<div class="typeManage_panel_form">
+					<div class="videoName">
+						<label class="specificlabel">影片名称</label>
+						<input id="newTypeName" type="text" class="addVideo_panel_form_input">
+					</div>
+					<div class="videoName">
+						<label class="specificlabel">已有的影视分类</label>
+						<select id="allTypes" class="specificSelect">
+							<option>拖拉机学习</option>
+							<option>搞笑学习</option>
+							<option>机器学习</option>
+						</select>
+					</div>
+					<div>
+						<button id="addType" class="specificbutton">添加</button>
+						<button id="deleteType" class="specificbutton">删除</button>
+					</div>
+
+				</div>
+			</div>
+
+
+
+
+
+			<div id="manageStudent_panel" class="hide">
+				<div id="manageStudent_panel_search">
+					<form>
+						<div>
+							<label>学生号</label>
+							<input type="" name="" style="width: 115px;">
+						</div>
+						<div>
+							<label>身份证号</label>
+							<input type="" name="" style="width: 180px;">
+						</div>
+						<div>
+							<label>姓名</label>
+							<input type="" name="" style="width: 100px">
+						</div>
+						<div>
+							<label>学生状态</label>
+							<select>
+								<option>正常</option>
+								<option>锁定</option>
+							</select>
+						</div>
+						<input type="submit" name="" value="搜索">
+					</form>
+
+				</div>
+				<div id="manageStudent_panel_table">
+					<table>
+						<tr>
+							<th>学生号</th>
+							<th>身份证号</th>
+							<th>学生姓名</th>
+							<th>学生状态</th>
+							<th>所属学院</th>
+							<th>所属专业</th>
+							<th>操作</th>
+						</tr>
+						<tr>
+							<td>20141120142</td>
+							<td>123456789012345678</td>
+							<td>正常</td>
+							<td>岳远泽</td>
+							<td>软件学院</td>
+							<td>软件工程</td>
+							<td>修改|删除|记录</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+			
+
+			
+			
+
+
+
+		</div>
+			
+
+		</div>
+		
+			
+
+		
+		
+
+
+	</div>
+	<div id="buttom"></div>
+</body>
+</html>

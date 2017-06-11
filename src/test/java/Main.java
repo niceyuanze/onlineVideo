@@ -1,16 +1,14 @@
-import com.onlineVideo.login.pojo.User;
+import com.onlineVideo.pojo.Video;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataBuilder;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.type.UUIDCharType;
 import org.junit.Test;
 
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -33,24 +31,9 @@ public class Main {
         SessionFactory sessionFactory = metadata.getSessionFactoryBuilder()
                 .build();
 
-//        String hql = "from User_Role ur where ur.user.id=:id1 and ur.role.id=:id2 ";
-        String hql = "from User_Role u where u.role.id=:id1 ";
-
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        System.out.println(session.createQuery(hql)
-                .setParameter("id1","e140c7a322494a23bc1b85739b01113d")
+        System.out.println(session.get(Video.class,"e6fa076138df460f83d0821d2dc02071"));
 
-
-                .list());
-        session.getTransaction().commit();
-        session.close();
-
-//        User user = new User();
-//        user.setLoginname("cxvzxcFGSGv");
-//        user.setPassword("wyw");
-//        user.setEmail("wywdsb@qq.com");
-//        session.save(user);
 
 
 
