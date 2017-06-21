@@ -4,6 +4,7 @@ import com.onlineVideo.dao.UserDao;
 import com.onlineVideo.pojo.User;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -23,6 +24,8 @@ public class UserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+
+
         return null;
     }
 
@@ -43,6 +46,10 @@ public class UserRealm extends AuthorizingRealm {
 //        Md5Hash md5Hash = new Md5Hash("admin",user.getLoginname(),2);
 //        user.setPassword(md5Hash.toString());
         ByteSource credentialsSalt = ByteSource.Util.bytes(loginname);
+
+
+
+
 
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 loginname, // 用户名

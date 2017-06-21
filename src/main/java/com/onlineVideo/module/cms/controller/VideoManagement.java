@@ -7,15 +7,14 @@ import com.onlineVideo.pojo.Type;
 import com.onlineVideo.pojo.Video;
 import com.onlineVideo.web.base.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.UUID;
 
 /**
@@ -35,27 +34,55 @@ public class VideoManagement {
 
     @ResponseBody
     @RequestMapping(value="/addVideo", method={RequestMethod.POST,RequestMethod.GET},produces = "text/json;charset=UTF-8")
-    public String save(Video video,String type1, MultipartFile newVideo, HttpServletRequest request) throws IOException {
-        String format =
+    public String save(Video video,
+                       MultipartFile newVideo,
+                       MultipartFile newImage,
+                       String type1,
+                       HttpServletRequest request) throws IOException {
+        //获取视频的拓展名
+        String videoFormat =
                 newVideo.getOriginalFilename()
                         .substring(newVideo.getOriginalFilename().lastIndexOf("."));
-        UUID uuid = UUID.randomUUID();
-        video.setId(uuid.toString().replace("-",""));
+        //获取图片的拓展名
+        String imageFormat =
+                newImage.getOriginalFilename()
+                        .substring(newVideo.getOriginalFilename().lastIndexOf("."));
+        //uuid
+        String uuid = UUID.randomUUID().toString().replace("-","");
+        //设置视频的uuid
+        video.setId(uuid);
+
+
+        // 设置视频的类型
         Type type = new Type();
         type.setName(type1);
         video.setType(type);
-        String dicPath = request.getServletContext().getRealPath("/upload/video")+"/"+type1;
-        String filePath = dicPath+"/"+video.getId()+"_"+video.getName()+format;
-        video.setPath(filePath);
 
 
-
-        videoDao.save(video);
-
-
-        File videoFile = new File(filePath);
+        String upLoadDic = request.getServletContext().getRealPath("/upload/");
+        String videoPath = upLoadDic+"video/"+type1+"/"+video.getId()+"_"+video.getName()+videoFormat;
+        String imagePath = upLoadDic+"image/cover/"+video.getId()+imageFormat;
+        System.out.println(videoPath);
+        System.out.println(imagePath);
+        File videoFile = new File(videoPath);
+        File photoFile = new File(imagePath);
         newVideo.transferTo(videoFile);
-        return "OK";
+        newImage.transferTo(photoFile);
+        video.setPath(videoPath);
+        video.setCover(imagePath);
+        videoDao.save(video);
+        return Result.success("OK");
+
+//        String imageDicPath = request.getServletContext().getRealPath("/upload/image");
+//        String filePath = videoDicPath+"/"+video.getId()+"_"+video.getName()+videoFormat;
+//        video.setPath(filePath);
+//
+//
+//
+//
+//
+//        File videoFile = new File(filePath);
+//        newVideo.transferTo(videoFile);
     }
 
     @ResponseBody
@@ -83,6 +110,17 @@ public class VideoManagement {
         }
         return Result.success("添加成功");
     }
+    @ResponseBody
+    @RequestMapping(value = "/search",method = RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String search(Video video, String type1) throws JsonProcessingException {
+        System.out.println(video);
+        System.out.println(type1);
+        Type type = new Type();
+        type.setName(type1);
+        video.setType(type);
+        return Result.success("ok",videoDao.search(video));
+    }
+
 
 
 }

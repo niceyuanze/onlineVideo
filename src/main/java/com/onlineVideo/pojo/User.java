@@ -48,11 +48,11 @@ public class User {
 
 
 
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-            joinColumns = { @JoinColumn(name = "user$id") },
-            inverseJoinColumns = { @JoinColumn(name = "role$id") })
-    private List<Role> roles = new ArrayList<>();
+//    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+//    @JoinTable(name = "user_role",
+//            joinColumns = { @JoinColumn(name = "user$id") },
+//            inverseJoinColumns = { @JoinColumn(name = "role$id") })
+//    private List<Role> roles = new ArrayList<>();
 
 
 
@@ -79,13 +79,7 @@ public class User {
     }
 
 
-    public List<Role> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
 
     public String getLoginname() {
         return loginname;
@@ -119,8 +113,6 @@ public class User {
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", roles=" + roles +
                 '}';
     }
-
 }

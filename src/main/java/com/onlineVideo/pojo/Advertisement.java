@@ -50,4 +50,14 @@ public class Advertisement {
     public void setPath(String path) {
         this.path = path;
     }
+
+
+    @Override
+    public String toString() {
+        return "Advertisement{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                '}';
+    }
 }

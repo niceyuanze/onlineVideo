@@ -23,14 +23,14 @@
         <property name="show_sql">true</property>
 
         <mapping class="com.onlineVideo.pojo.User"/>
-        <mapping class="com.onlineVideo.pojo.Role"/>
-        <mapping class="com.onlineVideo.pojo.User_Role"></mapping>
-
+        <mapping class="com.onlineVideo.pojo.Role"></mapping>
+        <mapping class="com.onlineVideo.pojo.Staff"></mapping>
 
         <mapping class="com.onlineVideo.pojo.Video"></mapping>
         <mapping class="com.onlineVideo.pojo.Type"></mapping>
 
         <mapping class="com.onlineVideo.pojo.Advertisement"></mapping>
+        <mapping class="com.onlineVideo.pojo.Video_Advertisement"></mapping>
     </session-factory>
 
 </hibernate-configuration>

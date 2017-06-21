@@ -19,5 +19,7 @@ public interface VideoDao {
 
     public boolean save(Video video);
 
+    public List<Video> search(Video video);
+
 
 }

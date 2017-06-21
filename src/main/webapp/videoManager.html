@@ -14,6 +14,18 @@
 <link href="css/basic.css" rel="stylesheet" type="text/css"/>
 	<script>
         $(document).ready(function(){
+
+
+            $("#logout_label").click(function () {
+                $.post("/logout",function(result){
+                    window.location.href='login.html';
+
+                });
+            });
+
+
+
+
             function getAllTypes(idid) {
                 $.get("/cms/videoManage/typeAll",function(result){
                     $("#"+idid).empty();
@@ -37,9 +49,13 @@
                 getAllTypes("allTypes");
 
             });
+            $("#changeVideoButton").click(function () {
+                getAllTypes("searchType");
+            })
 			$("#addVideoButton").click(function () {
                 getAllTypes("newVideoType");
             });
+
 
 			//添加视频的种类
 			$("#addType").click(function () {
@@ -68,7 +84,7 @@
                 $.ajaxFileUpload({
                         url:'/cms/videoManage/addVideo?name='+name+
 						'&abstracts='+abstracts+'&source='+source+'&type1='+type1,
-                        fileElementId:'newVideo',
+                        fileElementId:['newImage','newVideo'],
                     success: function (data, status){
                             alert(123);
                         },
@@ -83,7 +99,66 @@
             });
 
 
+
+
+
+
+
+            //搜索js代码
+			$("#search").click(function () {
+				var name = $("#searchName").val();
+                var abstracts = $("#searchAbstracts").val();
+                var source = $("#searchSource").val();
+                var type1 = $("#searchType").find("option:selected").attr("value");
+                alert("name="+name+
+					"&abstracts="+abstracts+
+					"&source="+source+
+					"&type1="+type1);
+                $.get("/cms/videoManage/search","name="+name+"&abstracts="+abstracts+"&source="+source+"&type1="+type1,function(result){
+
+                });
+
+            });
+
+
+
+			/*
+			* 		<div>
+			 <label id="search_label">搜索</label>
+			 </div>
+			 <div class="videoName">
+			 <label class="specificlabel">影片名称</label>
+			 <input id="searchName" type="text" class="addVideo_panel_form_input">
+			 </div>
+			 <div class="videoAbstract">
+			 <label class="specificlabel">影片摘要</label>
+			 <textarea id="searchAbstracts" class="specificTextarea"></textarea>
+			 </div>
+			 <div class="videoSource">
+			 <label class="specificlabel">影片片源信息</label>
+			 <input id="searchSource" type="text" class="addVideo_panel_form_input">
+			 </div>
+			 <select id="searchType" class="specificSelect">
+			 <option>拖拉机学习</option>
+			 <option>搞笑学习</option>
+			 <option>机器学习</option>
+			 </select>
+			 <div>
+			 <button id="search" class="specificbutton">搜索</button>
+			 </div>
+			*
+			*
+			* */
+
+
+
+
+
+
+
         });
+
+
 
 	</script>
 <title>back</title>
@@ -91,8 +166,10 @@
 	
 </head>
 <body>
+
 	<div id="head" class="head">
-		
+		<label id="logout_label" class="hand"  >注销</label>
+
 	</div>
 
 	<div id="main" class="main">
@@ -123,6 +200,9 @@
 
 			<div id="addVideo_panel" >
 
+
+
+
 				<div class="addVideo_panel_form">
 					<div class="videoName">
 						<label class="specificlabel">影片名称</label>
@@ -142,7 +222,11 @@
 					</div>
 					<div>
 						<label class="specificlabel">选择影片</label>
-						<input id="newVideo" name="newVideo" type="file" class="addVideo_panel_form_input">
+						<input id="newVideo" multiple="multiple" name="newVideo" type="file" class="addVideo_panel_form_input">
+					</div>
+					<div>
+						<label class="specificlabel">选择海报</label>
+						<input id="newImage"  multiple="multiple" name="newImage" type="file" class="addVideo_panel_form_input">
 					</div>
 					<div>
 						<button id="newUpLoad" class="specificbutton">上传</button>
@@ -152,14 +236,40 @@
 
 			</div>
 			<div id="changeVideo_panel" class="hide">
-				xxxx
+				<div id="changeVideo_panel_searchForm">
+					<div>
+						<label id="search_label">搜索</label>
+					</div>
+					<div class="videoName">
+						<label class="specificlabel">影片名称</label>
+						<input id="searchName" type="text" class="addVideo_panel_form_input">
+					</div>
+					<div class="videoAbstract">
+						<label class="specificlabel">影片摘要</label>
+						<textarea id="searchAbstracts" class="specificTextarea"></textarea>
+					</div>
+					<div class="videoSource">
+						<label class="specificlabel">影片片源信息</label>
+						<input id="searchSource" type="text" class="addVideo_panel_form_input">
+					</div>
+					<select id="searchType" class="specificSelect">
+						<option value="学习视频">学习视频</option>
+						<option value="搞笑学习">搞笑学习</option>
+						<option value="机器学习">机器学习</option>
+					</select>
+					<div>
+						<button id="search" class="specificbutton">搜索</button>
+					</div>
+
+				</div>
+
+
+
 			</div>
 			<div id="typeManage_panel" class="hide">
 				<div class="typeManage_panel_form">
-					<div class="videoName">
-						<label class="specificlabel">影片名称</label>
-						<input id="newTypeName" type="text" class="addVideo_panel_form_input">
-					</div>
+
+
 					<div class="videoName">
 						<label class="specificlabel">已有的影视分类</label>
 						<select id="allTypes" class="specificSelect">

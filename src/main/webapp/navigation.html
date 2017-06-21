@@ -15,22 +15,19 @@
 
 
 
-//            点击label播放视频功能实现
-            $("#main_titles label").click(function(){
-                var id = this.id;
-                $.get("/video/play/"+id,function(result){
 
-                    if(result['code'] == 200){
-                        $("#player").attr("src",result['data']['path']);
-                    }
 
-                });
-            });
+
 
 
             //下面两个是页面的显示隐藏实现
 
             $("#login_label").click(function () {
+
+
+
+
+
                 if($("#login-frame").is(":hidden")　&& $("#singUp-frame").is(":hidden")){
                     $("#login-frame").show();
                     return;
@@ -62,21 +59,20 @@
 
 
 
-            //jquery获取cookie测试
-            $("#getCookie").click(function () {
-                var strCookie = document.cookie;
-                var arrCookie = strCookie.split("; ");
-                alert(arrCookie);
-            });
 
 
 
             //登录方法实现
             $("#loginButton").click(function () {
+
                 var loginname = $("#loginname").val();
                 var password = $("#password").val();
                     $.post("/login/user","loginname="+loginname+"&password="+password,
                         function(result){
+
+                            $("#login_label").toggle();
+                            $("#logout_label").toggle();
+
                         if(result['code'] == 200){
                             $("#login-frame").toggle();
                             $.get("/video/play",function(result){
@@ -125,12 +121,21 @@
 
 //
 
+            $("#logout_label").click(function () {
+                $.post("/logout",function(result){
+                    $("#login_label").toggle();
+                    $("#logout_label").toggle();
+                });
+            });
 
 
 
 
 
+            $("#test").click(function () {
+                $("#login_label").toggle();
 
+            });
 
 
 //          下面是播放结束方法实现或者获取非广告方法,视频id在session里面
@@ -150,12 +155,86 @@
 
 
 
+        function getAll(){
+            $.get("/video/all",function(result){
+                $("#main_titles").empty();
+
+
+
+
+
+
+                var append =""
+                for(var type in result['data']){
+                    append = append +   "<li>"
+                    append = append+"<h5>"+type+"</h5>";
+                    append = append+"<ul class='main_title_specific'>";
+                    for(var i in result['data'][type]){
+                        var id = result['data'][type][i]['id'];
+                        var name = result['data'][type][i]['name']
+                        var lili = "<li><label class='playClass' id='"+id+"'>"+name+"</label></li>"
+                        append = append + lili;
+                    }
+                    append = append+"</ul></li>";
+                }
+                $("#main_titles").append(append);
+
+
+
+            });
+        }
+        getAll();
+
+//        $("#main_titles label").click(function(){
+//            var id = this.id;
+//            $.get("/video/play/"+id,function(result){
+//
+//                if(result['code'] == 200){
+//                    $("#player").attr("src",result['data']['path']);
+//                }
+//
+//            });
+//        });
+
+
+
+
+        //            点击label播放视频功能实现
+        $(document).on('click', '.playClass', function() {
+            var id = this.id;
+            $.get("/video/play/"+id,function(result){
+
+                if(result['code'] == 200){
+                    $("#player").attr("src",result['data']['path']);
+                }
+
+            });
+        });
+
+
+
+
+
+
+
+
+
+//        window.onbeforeunload = function(event) {
+//            $.post("/video/clear/",function(result){
+//            });
+//            return confirm("确定离开此页面吗？");
+//        }
+        //如果没有登录，播放，有两种情况，一种视频有广告，一种情况没有
+
+
+
     </script>
 </head>
 <body class="bg">
 
     <div id="head" class="head">
         <label id="login_label" class="hand" >登录</label>
+        <label id="logout_label" class="hand" style="display: none" >注销</label>
 
     </div>
 
@@ -168,8 +247,7 @@
             <li>
                 <h5>学习视频</h5>
                 <ul class="main_title_specific">
-                    <li><label id="e6fa076138df460f83d0821d2dc02071">机器学习1</label></li>
-                    <li><label id="e6fa076138df460f83d0821d2dc02071">机器学习2</label></li>
+                    <li><label id='e6fa076138df460f83d0821d2dc02071'>机器学习视频1</label></li>
                     <li><label id="3">机器学习3</label></li>
                 </ul>
             </li>
@@ -196,7 +274,7 @@
 
         </div>
 
-        <video id ="player"  width="700px" height="415px" controls="controls" autoplay="autoplay"　w>
+        <video id ="player"   controls="controls" autoplay="autoplay"　>
 
 
         </video>

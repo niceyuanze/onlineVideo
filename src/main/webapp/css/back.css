@@ -13,7 +13,10 @@
 			height: 1500px;
 
 		}
+		.hand{
+			cursor:pointer;
 
+		}
 
 
 		.ueditor{
@@ -116,6 +119,14 @@
 
 }
 
+#logout_label{
+	display: block;
+	width: 50px;
+	height: 25px;
+	margin: 0px 0px 0px 1250px;
+	color: #555;
+}
+
 /*一下是添加视频种类menu的css*/
 
 #typeManage_panel{
@@ -127,6 +138,18 @@
 }
 #typeManage_panel button{
 	margin: 0px 15px 0px 0px;
+}
+
+
+
+        /*以下是修改影片信息css*/
+#changeVideo_panel_searchForm div{
+	margin: 15px 0px 0px 0px ;
+}
+#search_label{
+	display: block;
+	margin: 0px 0px 0px 500px;
+	font-size: 25px;
 }
 
 

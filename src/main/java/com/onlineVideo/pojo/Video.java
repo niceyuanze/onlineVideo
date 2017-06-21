@@ -27,6 +27,9 @@ public class Video {
     @Column(name="source")
     private String source;
 
+    @Column(name = "cover")
+    private String cover;
+
     @ManyToOne
     @JoinColumn(name = "type",
             foreignKey = @ForeignKey(name = "VIDEO_FK_TYPE")
@@ -43,6 +46,15 @@ public class Video {
 
 
     public Video() {
+    }
+
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public String getId() {
@@ -95,6 +107,7 @@ public class Video {
         this.advertisements = advertisements;
     }
 
+
     @Override
     public String toString() {
         return "Video{" +
@@ -103,6 +116,7 @@ public class Video {
                 ", path='" + path + '\'' +
                 ", abstracts='" + abstracts + '\'' +
                 ", source='" + source + '\'' +
+                ", cover='" + cover + '\'' +
                 ", type=" + type +
                 ", advertisements=" + advertisements +
                 '}';

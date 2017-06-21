@@ -19,6 +19,10 @@ public class Role {
     private String content;
 
 
+
+    @Column(name = "homePage", nullable = false,updatable = false,unique = true)
+    private String homePage;
+
     public String getId() {
         return id;
     }
@@ -35,11 +39,20 @@ public class Role {
         this.content = content;
     }
 
+    public String getHomePage() {
+        return homePage;
+    }
+
+    public void setHomePage(String homePage) {
+        this.homePage = homePage;
+    }
+
     @Override
     public String toString() {
         return "Role{" +
                 "id='" + id + '\'' +
                 ", content='" + content + '\'' +
+                ", homePage='" + homePage + '\'' +
                 '}';
     }
 }

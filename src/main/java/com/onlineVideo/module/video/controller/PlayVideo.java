@@ -36,6 +36,10 @@ public class PlayVideo {
             msg = "nlogined";
             Random random = new Random();
             List<Advertisement> advertisementList = videoDao.getAdvertisements(id);
+            if(advertisementList.size() == 0){
+                session.removeAttribute("lastVideoId");
+                return Result.success(msg,videoDao.getVideo(id));
+            }
             session.setAttribute("lastVideoId",id);
             return Result.success(msg,advertisementList.get(random.nextInt(advertisementList.size())));
         }else{
@@ -45,6 +49,8 @@ public class PlayVideo {
         }
 
     }
+
+
     @ResponseBody
     @RequestMapping(value="/play", method = RequestMethod.GET,produces = "text/json;charset=UTF-8")
     public String getVideo() throws JsonProcessingException {
@@ -57,6 +63,21 @@ public class PlayVideo {
 
         }
     }
+    @ResponseBody
+    @RequestMapping(value="/all", method = RequestMethod.GET,produces = "text/json;charset=UTF-8")
+    public String getAll() throws JsonProcessingException {
+        return Result.success("ok",videoDao.getAll());
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/clear", method = RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    public String removeOthers() throws JsonProcessingException {
+        session.removeAttribute("lastVideoId");
+        return Result.success("ok");
+    }
+
+
+
 
 
     public VideoDao getVideoDao() {

@@ -44,13 +44,29 @@
 
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="myRealm"/>
+        <property name="authenticator" ref="authenticator"></property>
+        <property name="realms" >
+            <list>
+                <ref bean="UserRealm" />
+                <ref bean="StaffRealm" />
+            </list>
+        </property>
     </bean>
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
 
 
-    <bean id="myRealm" class="com.onlineVideo.web.shiro.UserRealm">
+
+    <!-- 配置使用自定义认证器，可以实现多Realm认证，并且可以指定特定Realm处理特定类型的验证 -->
+    <bean id="authenticator" class="com.onlineVideo.web.shiro.CustomizedModularRealmAuthenticator">
+        <!-- 配置认证策略，只要有一个Realm认证成功即可，并且返回所有认证成功信息 -->
+        <property name="authenticationStrategy">
+            <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"></bean>
+        </property>
+    </bean>
+
+    <!--UserRealm Bean-->
+    <bean id="UserRealm" class="com.onlineVideo.web.shiro.UserRealm">
         <property name="credentialsMatcher">
             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
                 <!-- 加密算法为MD5 -->
@@ -61,16 +77,37 @@
         </property>
     </bean>
 
+    <!--StaffRealm Bean-->
+    <bean id="StaffRealm" class="com.onlineVideo.web.shiro.StaffRealm">
+        <property name="credentialsMatcher">
+            <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+                <!-- 加密算法为MD5 -->
+                <property name="hashAlgorithmName" value="MD5"></property>
+                <!-- 加密次数 -->
+                <property name="hashIterations" value="2"></property>
+            </bean>
+        </property>
+    </bean>
+
+
+
+
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="login.html"></property>
+        <property name="unauthorizedUrl" value="login.html"></property>
 
         <property name="filterChainDefinitions">
             <value>
-                # some example chain definitions:
-                #/admin/** = authc, roles[admin]
-                #/docs/** = authc, perms[document:read]
-                #/** = authc
-                # more URL-to-FilterChain definitions here
+                /admin.html = authc,roles[系统管理员]
+                /videoManager.html = authc,roles[影视资料管理员]
+                /cms/** = authc
+                /video/** = anon
+                /login/** = anon
+                /signUp/** = anon
+
+
+
             </value>
         </property>
     </bean>

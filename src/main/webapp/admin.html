@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/back.js"></script>
+    <script src="js/ajaxfileupload.js"></script>
+    <!-- 配置文件 -->
+    <script type="text/javascript" src="ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="ueditor/ueditor.all.js"></script>
+    <META HTTP-EQUIV="Cache-Control"CONTENT="no-cache">
+    <link href="css/back.css" rel="stylesheet" type="text/css"/>
+    <link href="css/basic.css" rel="stylesheet" type="text/css"/>
+    <script>
+        $(document).ready(function(){
+
+            $("#logout_label").click(function () {
+                $.post("/logout",function(result){
+                    window.location.href='login.html';
+
+                });
+            });
+
+
+
+            $("#addNewStaff").click(function () {
+               alert("123123");
+               var staffCode = $("#staffCode").val();
+               var password = $("#staffPassword").val();
+               var name = $("#staffName").val();
+               var roleId = $("#staffRole").find("option:selected").attr("value");
+               var parameters = "staffCode="+staffCode+
+                   "&password="+password+
+                   "&name="+name+
+                   "&roleId="+roleId;
+               alert(parameters);
+                $.post("/cms/staff/add",parameters,function(result){
+                   alert("123123okokoko");
+                });
+            });
+
+
+
+//
+//
+            function getAllRoles(idid) {
+                $.get("/cms/staff/roles",function(result){
+                    $("#"+idid).empty();
+                    for(var i in result['data']){
+                        $("#"+idid).append("<option value='"+result['data'][i]['id']+"'>"+result['data'][i]['content']+"</option>");
+                    }
+                });
+            };
+
+
+
+//
+//
+//
+//
+//		以下是载入界面的时候初始化设置
+            getAllRoles("staffRole");
+
+
+
+
+
+            $("#upLoadAdvertisement").click(function(){
+
+                var name=$("#advertisementName").val();
+                $.ajaxFileUpload({
+                        url:'/cms/advertisementManage/add?name='+name,
+                        fileElementId:['newAdvertisement'],
+                        success: function (data, status){
+                            alert("上传成功");
+                        },
+                        error: function (data, status)
+                        {
+                            alert("上传失败");
+                        }
+                    }
+                );
+
+
+            });
+
+
+//
+//
+//            //获取所有的影视类别
+//
+//
+//            $("#typeManageButton").click(function () {
+//                getAllTypes("allTypes");
+//
+//            });
+//            $("#changeVideoButton").click(function () {
+//                getAllTypes("searchType");
+//            })
+//            $("#addVideoButton").click(function () {
+//                getAllTypes("newVideoType");
+//            });
+//
+//
+//            //添加视频的种类
+//            $("#addType").click(function () {
+//                var newTypeName = $("#newTypeName").val();
+//                $.post("/cms/videoManage/type","name="+newTypeName,function(result){
+//                    alert(result['msg']);
+//                    getAllTypes("allTypes");
+//                });
+//
+//            });
+//
+//
+//
+//
+//
+//
+
+//
+//
+//
+//
+//
+//
+//
+//            //搜索js代码
+//            $("#search").click(function () {
+//                var name = $("#searchName").val();
+//                var abstracts = $("#searchAbstracts").val();
+//                var source = $("#searchSource").val();
+//                var type1 = $("#searchType").find("option:selected").attr("value");
+//                alert("name="+name+
+//                    "&abstracts="+abstracts+
+//                    "&source="+source+
+//                    "&type1="+type1);
+//                $.get("/cms/videoManage/search","name="+name+"&abstracts="+abstracts+"&source="+source+"&type1="+type1,function(result){
+//
+//                });
+//
+//            });
+//
+//
+
+
+
+
+
+
+
+        });
+
+    </script>
+    <title>back</title>
+
+
+</head>
+<body>
+
+<div id="head" class="head">
+    <label id="logout_label" class="hand"  >注销</label>
+</div>
+
+<div id="main" class="main">
+    <div id="main_main">
+        <div id="buttons" class="buttons">
+            <ul>
+                <li id="li0">
+
+                    <button id="button0">系统管理</button>
+
+                    <div id="menu0">
+                        <button id="userManageButton">用户管理</button>
+                        <button id="advertisementManageButton">广告管理</button>
+
+
+                    </div>
+                </li>
+
+
+            </ul>
+
+
+
+        </div>
+        <div id="panel">
+
+
+            <div id="userManage_panel" >
+
+
+
+
+                <div class="addVideo_panel_form">
+                    <div class="videoName">
+                        <label class="specificlabel">员工编码</label>
+                        <input id="staffCode" type="text" class="addVideo_panel_form_input">
+                    </div>
+                    <div class="videoAbstract">
+                        <label class="specificlabel">员工密码</label>
+                        <input type="password" id="staffPassword" class="addVideo_panel_form_input"></input>
+                    </div>
+                    <div class="videoSource">
+                        <label class="specificlabel">员工姓名</label>
+                        <input id="staffName" type="text" class="addVideo_panel_form_input">
+                    </div>
+                    <div>
+                        <label class="specificlabel">员工职位</label>
+                        <select id="staffRole" class="specificSelect">
+                            <option value="yyzzsl">岳远泽最帅了</option>
+                        </select>
+                    </div>
+                    <div>
+                        <button id="addNewStaff" class="specificbutton">上传</button>
+                    </div>
+
+                </div>
+
+            </div>
+            <div id="advertisementManage_panel" class="hide">
+                <div id="changeVideo_panel_searchForm">
+                    <div class="videoName">
+                        <label class="specificlabel">广告名称</label>
+                        <input id="advertisementName" type="text" class="addVideo_panel_form_input">
+                    </div>
+                    <div>
+                        <label class="specificlabel">选择广告</label>
+                        <input id="newAdvertisement"  multiple="multiple" name="newAdvertisement" type="file" class="addVideo_panel_form_input">
+                    </div>
+
+                    <div>
+                        <button id="upLoadAdvertisement" class="specificbutton">上传</button>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+</div>
+<div id="buttom"></div>
+</body>
+</html>
